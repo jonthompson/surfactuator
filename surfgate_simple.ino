@@ -9,7 +9,11 @@
 float minSpeed=7.0;
 float maxSpeed=14.0;
 
-// Actuator Settings
+// All entries for timing/tabs/buttons are arrays where array[0] = off  array[1] = surf left controls, array[2] = surf right controls.
+// So below example, off doesnt mean anything for actuators, left surfing tab takes 3 seconds to deploy, right surfing tab takes 3 seconds
+// When wiring, "surf left" means deploy right tab, so make sure you follow wiring diagram.  This is to avoid confusion in code.
+
+// Actuator settings
 int tabTime[ ] = {0,3000,3000}; // The amount of time it eachs each tab to deploy/retract.  Longer than it takes is fine - but dont go over by a ton.  Time when underway, not when no load is on it!
 int coolDown = 500; // Wait 500ms before taking a second action on same tab
 
@@ -18,7 +22,9 @@ const int buttonPins[ ] = {50,51,52}; // Set to your button pins, array[0]= off,
 const int relayGate[ ] = {0,6,8}; //0 off, 6= left gate pin, 8=right gate pin
 const int relayGateRetract[ ] = {0,7,9}; // 0= off, 7= left retract gate pin, 9 = right retract gate pin
 
+
 // No need to edit below here
+
 //GPS data
 long lastUpdate = 0;
 float lastSpeed;
@@ -26,7 +32,7 @@ int satCount;
 bool gpsOut;
 bool speedlimit;
 bool override;
-// Tab statuses
+
 int surf=0; //off=0, surf left=1, surfright=2
 int deployed[ ]={0,0,0}; // tab deployed
 
@@ -93,7 +99,7 @@ void gpsLagCheck() {
 }
 
 void checkSpeed() {
-  if(lastSpeed > minSpeed and lastSpeed < maxSpeed) {
+  if(lastSpeed > minSpeed and lastSpeed < maxSpeed|| forceDeploy) {
     speedlimit=true;
   } else {
     speedlimit=false;
@@ -214,12 +220,17 @@ void checkButtons() {
     Serial.print("SHORTPUSH BUTTON");
     Serial.println(tabMap[i]);
     buttons[i] =-1;
+    surf = i;
+    forceDeploy=false;
    }
    if(buttons[i] > 0 and buttonValue==HIGH and millis() - buttons[i] >= 1000) {
     Serial.print("LONGPUSH BUTTON ");
     Serial.println(tabMap[i]);
     buttons[i]=-1;
+    surf = i;
+    forceDeploy = true;
    }
+    
    if(buttonValue==LOW and buttons[i] ==-1) {
     buttons[i] = millis();
    }
