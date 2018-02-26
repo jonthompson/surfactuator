@@ -1,6 +1,8 @@
 # surfgate
 Arduino GPS surfgate controller
 
+![Surfgate](https://raw.githubusercontent.com/jonthompson/surfgate/master/surfgate.png)
+
 An Arduino/GPS controller to automatically deploy and retract your actuator controlled DIY wake gates/tabs at apprioriate speeds.
 
 Depends on https://github.com/SlashDevin/NeoGPS/
