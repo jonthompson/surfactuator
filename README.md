@@ -1,7 +1,7 @@
 # surfgate
 Arduino GPS surfgate controller
 
-An Arduino and GPS module controller to automatically deploy your actuator controlled DIY wake gates/tabs. 
+An Arduino and GPS module controller to automatically deploy and retract your actuator controlled DIY wake gates/tabs at apprioriate speeds.
 
 Depends on https://github.com/SlashDevin/NeoGPS/
 
@@ -20,4 +20,4 @@ A simple start for the gate controls - 3 buttons (off, left, right) and controls
 Adding on to surfgate_simple - adding an esp8266 module via serial running in SoftAP mode to configure and control your surfgate from your phone
 
 # surfgate_complete
-A kitchen-sink version including support for OLED screen for status reporting, wifi module via serial, and an RF receiver for a DIY surfband.
+A kitchen-sink version including support for OLED screen for status reporting, pot for fine tuning, wifi module via serial for configuration/phone control and remote programming, and an RF receiver for a DIY surfband.
