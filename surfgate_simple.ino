@@ -218,14 +218,14 @@ void checkButtons() {
    int buttonValue = digitalRead(buttonPins[i]);
    // Check for short press
    if(buttons[i] > 0 and buttonValue == HIGH and millis()-buttons[i] < 1000) {
-    Serial.print("SHORTPUSH BUTTON");
+    Serial.print("SHORTPUSH BUTTON: ");
     Serial.println(tabMap[i]);
     buttons[i] =-1;
     surf = i;
     forceDeploy=false;
    }
    if(buttons[i] > 0 and buttonValue==HIGH and millis() - buttons[i] >= 1000) {
-    Serial.print("LONGPUSH BUTTON ");
+    Serial.print("LONGPUSH BUTTON: ");
     Serial.println(tabMap[i]);
     buttons[i]=-1;
     surf = i;
