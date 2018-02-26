@@ -5,14 +5,14 @@
 
 
 
-//Surf Settings
+//Surf Settings - deploy speeds
 float minSpeed=7.0;
 float maxSpeed=14.0;
 
 // Hardware Settings
-int tabTime[ ] = {0,3000,3000}; // The amount of time it eachs each tab to deploy/retract
+int tabTime[ ] = {0,3000,3000}; // The amount of time it eachs each tab to deploy/retract.  Longer than it takes is fine - but dont go over by a ton.  Time when underway, not when no load is on it!
 int coolDown = 500; // Wait 500ms before taking a second action on same tab
-int buttonPins[ ] = {50,51,52}; // Set to your button pins, 0= off, 1=surf left, 2= surf right.
+int buttonPins[ ] = {50,51,52}; // Set to your button pins, 0= off, 1=surf left, 2= surf right. 
 
 
 // No need to edit below here
@@ -74,7 +74,7 @@ void GPSloop()
     satCount = fix.satellites;
   }
 
-} // GPSloop
+} 
 
 void gpsLagCheck() {
   if((millis() - lastUpdate) > 5000) {
@@ -82,9 +82,6 @@ void gpsLagCheck() {
   } else {
     gpsOut = false;
   }
-}
-void sendUpdate() {
-  // Send update to serial port for webserver
 }
 
 void checkSpeed() {
@@ -214,12 +211,14 @@ void checkButtons() {
 }
 void loop()
 {
+  
   if(millis() - loopTimer> 100) {
     Serial.print("LONG LOOP - GPS ISSUE POSSIBLE");
     Serial.println(millis()-loopTimer);
     loopTime = millis()-loopTimer;
   } 
   loopTimer=millis();
+  
   tabTimers();
   checkButtons();
   GPSloop(); // Get GPS data
@@ -231,6 +230,5 @@ void loop()
 
   goSurf();
   reportSerial(); // Report status on serial
-  sendUpdate();  // Send an update of data to the webserver
   
 }
