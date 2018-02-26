@@ -3,8 +3,16 @@ Arduino GPS surfgate controller
 
 An arduino GPS controller for electric actuators for your wake boat.
 
+Depends on https://github.com/SlashDevin/NeoGPS/
+
+If you are not using an Arduino Mega 2560 you'll also need either https://github.com/PaulStoffregen/AltSoftSerial or https://github.com/SlashDevin/NeoSWSerial
+
+The Mega adds 3 additional hardware serial ports and a ton of extra memory so it is advised to use that if possible.
+
+Suggested cnofiguration change: edit hardware/arduino/avr/cores/arduino/HardwareSerial.h change SERIAL_TX_BUFFER_SIZE and SERIAL_RX_BUFFER_SIZE to 256.  This will improve GPS buffers.
+
 # surfgate_simple
-A simple start for the gate controls - 3 buttons (off, left, right) and controls for actuators via 4 pins.  Start here.
+A simple start for the gate controls - 3 buttons (off, left, right) and controls for actuators via 4 pins.  Start here.  See simple_fritzing for wiring.
 
 
 # surfgate_wifi
