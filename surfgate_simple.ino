@@ -9,11 +9,14 @@
 float minSpeed=7.0;
 float maxSpeed=14.0;
 
-// Hardware Settings
+// Actuator Settings
 int tabTime[ ] = {0,3000,3000}; // The amount of time it eachs each tab to deploy/retract.  Longer than it takes is fine - but dont go over by a ton.  Time when underway, not when no load is on it!
 int coolDown = 500; // Wait 500ms before taking a second action on same tab
-int buttonPins[ ] = {50,51,52}; // Set to your button pins, 0= off, 1=surf left, 2= surf right. 
 
+// Pin settings for your arduino
+const int buttonPins[ ] = {50,51,52}; // Set to your button pins, array[0]= off, array[1]=surf left, array[2]= surf right button.  Using momentary push buttons with a long/short press in code below.
+const int relayGate[ ] = {0,6,8}; //0 off, 6= left gate pin, 8=right gate pin
+const int relayGateRetract[ ] = {0,7,9}; // 0= off, 7= left retract gate pin, 9 = right retract gate pin
 
 // No need to edit below here
 //GPS data
@@ -22,7 +25,7 @@ float lastSpeed;
 int satCount;
 bool gpsOut;
 bool speedlimit;
-
+bool override;
 // Tab statuses
 int surf=0; //off=0, surf left=1, surfright=2
 int deployed[ ]={0,0,0}; // tab deployed
@@ -53,6 +56,11 @@ void setup()
   for(i=0; i<3; i=i+1) {
       pinMode(buttonPins[i], INPUT_PULLUP);
 
+  }
+  
+  for(i=1; i<3;i=i+1) {
+    pinMode(relayGate[i], OUTPUT);
+    pinMode(relayGateRetract[i], OUTPUT);
   }
 
     gpsPort.begin(9600);
@@ -126,6 +134,7 @@ void deployTab(int tab) {
         retractTab(i);
       }
     }
+    digitalWrite(relayGate[tab], HIGH);
 
     //Do deploy logic here
     deployTimers[tab] = millis();
@@ -134,6 +143,9 @@ void deployTab(int tab) {
 void retractTab(int tab) {
     Serial.print("Retracting: ");
     Serial.println(tabMap[tab]);
+    digitalWrite(relayGate[tab], HIGH);
+    digitalWrite(relayGateRetract[tab], HIGH);
+
     retractTimers[tab] = millis();
 }
 
@@ -173,6 +185,7 @@ void tabTimers() {
       //Do your deploy complete logic here, IE: set pins
       Serial.print("Deploy complete: ");
       Serial.println(tabMap[i]);
+      digitalWrite(relayGate[i], LOW); // Stop deploying gate
       deployTimers[i]=-1;
       coolDownTimers[i] = millis();
     }
@@ -181,6 +194,9 @@ void tabTimers() {
     if(retractTimers[i] > 0 and (millis()- retractTimers[i]) > tabTime[i] and deployTimers[i] ==-1) {
       deployed[i]=0;
       //Do your retract complete logic here, IE: set pins
+      digitalWrite(relayGate[i], LOW); // Stop retracting gate
+      digitalWrite(relayGateRetract[i], LOW); // Stop retracting gate
+
       Serial.print("Retract complete: ");
       Serial.println(tabMap[i]);
       retractTimers[i]=-1;
