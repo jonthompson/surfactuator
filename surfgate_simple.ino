@@ -32,6 +32,7 @@ int satCount;
 bool gpsOut;
 bool speedlimit;
 bool override;
+bool forceDeploy = false;
 
 int surf=0; //off=0, surf left=1, surfright=2
 int deployed[ ]={0,0,0}; // tab deployed
