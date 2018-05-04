@@ -260,7 +260,7 @@ void loop()
 
   gpsLagCheck(); // Is the GPS data old?  If so, report it.
   checkSpeed();  // Check  if my speed is in the deploy range
-  speedlimit=1;  // override cause i'm sick of driving around
+  //speedlimit=1;  // override cause i'm sick of driving around
   updateLEDs();  // If you use LEDs for any status updates, set here.
 
   goSurf();
