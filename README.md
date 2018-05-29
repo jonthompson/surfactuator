@@ -9,7 +9,7 @@ Depends on https://github.com/SlashDevin/NeoGPS/
 
 If you are not using an Arduino Mega 2560 you'll also need either https://github.com/PaulStoffregen/AltSoftSerial or https://github.com/SlashDevin/NeoSWSerial
 
-# Parts List:
+# Parts List (Simple):
 Pick an Arduino:
 * Uno R3 (https://www.amazon.com/ATmega328P-Development-Compatible-Develope-Microcontroller/dp/B01AR7YJ3O)
 OR
@@ -21,22 +21,18 @@ If you want a screw shield, the nano is likely a better option (https://www.amaz
 
 * LM2596 Buck Converter (https://www.amazon.com/eBoot-LM2596-Converter-3-0-40V-1-5-35V/dp/B01GJ0SC2C (only need 1 but they are super handy and cheap)
 
-GPS Module with antenna (https://www.amazon.com/dp/B01MRNN3YZ) 
+* GPS Module with antenna (https://www.amazon.com/dp/B01MRNN3YZ) 
 
-Any 3 way switch you want (SPDT - not momentary) - IE: https://www.amazon.com/Blue-Sea-Systems-WeatherDeck-Toggle/dp/B000MMFJ02
+* Any 3 way switch you want (SPDT - not momentary) - IE: https://www.amazon.com/Blue-Sea-Systems-WeatherDeck-Toggle/dp/B000MMFJ02
 
-
-
-# surfgate_simple
-A simple start for the gate controls - 3 buttons to wire (off, left, right) and controls for actuators via 4 pins.  You can either solder and wire custom relay controls - http://henrysbench.capnfatz.com/henrys-bench/arduino-output-devices/tip122-arduino-relay-tutorial/   or use a N298L motor controller to trigger the relays. See simple_fritzing for wiring examples.
+* If you want a status LED grab one you like (9v - 12v)
 
 
-# surfgate_wifi
-Adding on to surfgate_simple - adding an esp8266 module via serial running in SoftAP mode to configure and control your surfgate from your phone.
+# Wiring Instructions
+Coming soon (see fritzing in interim)
 
-# surfgate_complete
-A kitchen-sink version including support for OLED screen for status reporting, pot for fine tuning, wifi module via serial for configuration/phone control and remote programming, and an RF receiver for a DIY surfband.
-
+# Install
+Coming soon
 
 
 
