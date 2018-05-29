@@ -15,7 +15,7 @@ Pick an Arduino:
 OR
 * Nano: https://www.amazon.com/HiLetgo-ATmega328P-Micro-controller-Development-Compatible/dp/B00E87VWY4/
 
-If you want a screw shield, the nano is likely a better option (https://www.amazon.com/Aideepen-Terminal-Adapter-Expansion-ATMEGA328P-AU/dp/B0788MLRLK/ref=sr_1_1?ie=UTF8&qid=1527559143&sr=8-1&keywords=nano+screw+shield)
+If you want a screw shield instead of soldering (recommended), the nano is likely a better option (https://www.amazon.com/Aideepen-Terminal-Adapter-Expansion-ATMEGA328P-AU/dp/B0788MLRLK/ref=sr_1_1?ie=UTF8&qid=1527559143&sr=8-1&keywords=nano+screw+shield)
 
 * L298N Motor Bridge (https://www.amazon.com/Stepper-Controller-Mega2560-Duemilanove-IFANCY-TECH/dp/B01GZ1QUHO  (only need 1, but a backup doesn't hurt)
 
