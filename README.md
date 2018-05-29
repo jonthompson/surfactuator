@@ -1,5 +1,5 @@
-# surfgate
-Arduino GPS surfgate controller
+# Surf Actuator
+Arduino GPS Surf Actuator controller 
 
 ![Surfgate](https://raw.githubusercontent.com/jonthompson/surfgate/master/surfgate.png)
 
