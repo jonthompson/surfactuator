@@ -22,7 +22,7 @@ If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen
 
 * Any 3 way switch you want (SPDT - not momentary) - IE: https://www.amazon.com/Blue-Sea-Systems-WeatherDeck-Toggle/dp/B000MMFJ02
 
-* (Optional) a status LED grab one you like (7v - 12v)
+* (Optional) a status LED grab one you like (7v - 12v) iE: https://www.amazon.com/dp/B013TI6CE2/ref=twister_B0150XWQ8U?_encoding=UTF8&th=1
 
 * (Optional) A rotary encoder with a button -- I use these (this is a 5 pack) (https://www.amazon.com/Cylewet-Encoder-15%C3%9716-5-Arduino-CYT1062/dp/B06XQTHDRR/)
 
