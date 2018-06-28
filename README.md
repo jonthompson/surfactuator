@@ -38,13 +38,15 @@ If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen
 ## Power:
 * Since everything except the actuators is very low draw all wiring can be 18-22AWG
 * REMOVE 5V REGULATOR JUMPER ON L298N.  This is a small jumper by itself on the board.
+
 #### No soldering
-* If you used the no-solder power supply above, just wire the in to your 12v power, out to the VIN pin on the arduino. Also run 12v to the L298N board.
+* If you used the no-solder power supply above, just wire the in to your 12v power, out to the *5V pin* on the arduino. Also run 12v to the L298N board.  Note you are wiring this to 5V NOT VIN.
+
 #### Soldering:
 * Wire power to the LM2596 "in" solder pads.  Wire this to something that is not always powered or you'll kill your battery.
 * Also solder a lead onto the LM2596 "in" solder pads to go directly to the L298N 12V in.
 * Connect your LM2596 to a 12V source after turning the gold dial counter-clockwise 15-20 times.  Use a multimeter to measure out pads until you get to 7-8V out.
-* Solder wire on the LM2596 "out" solder pads to run to VIN/GND on arduino
+* Solder wire on the LM2596 "out" solder pads to run to *VIN/GND* on arduino.  Note this is different from above, wire to VIN not 5V!
 
 ## GPS
 * Solder or connect 3v3 (+) and GND (-) to arduino pins.
