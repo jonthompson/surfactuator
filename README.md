@@ -29,8 +29,13 @@ If you want a screw shield instead of soldering (recommended), the nano is likel
 
 
 # Wiring Instructions
-## Wiring
-Since everything except the actuators is very low draw all wiring can be 18-20AWG
+* Since everything except the actuators is very low draw all wiring can be 18-20AWG
+
+## Relays:
+* Do NOT try to drive your lenco relays directly(!)  You need to use marine relays to drive them (https://www.amazon.com/PACK-AMP-Waterproof-Relay-Harness/dp/B074FSZWVT/) you'll need 4 total.
+* Wire your relays according to lenco diagrams (1 relay per direction/tab) and you'll toggle them with the motor driver in the arduino.
+* Wire your actuators with enough power (a single 25A circuit to the back of the boat is fine.)
+
 
 ## Power:
 * REMOVE 5V REGULATOR JUMPER ON L298N.  This is a small jumper by itself on the board.
