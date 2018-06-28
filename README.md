@@ -78,8 +78,22 @@ If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen
 * Upload code to your arduino - there's no required code changes out of box.
 * Open serial monitor and you should see it running - it will post a status update every second. If serial isnt working check the baud rate (9600) and the port.
 
+# Testing
+You can easily test this before installing in your boat:
+* The code logs everything to the serial port when there are any changes - and full status updates once a second, so you can connect a USB cable and use the serial monitor to monitor in the arduino IDE in real time whats happening
+* Uncomment *speedlimit=1;* towards the end of the code by removing the leading // and upload the new code.
+* Plug your new power cables into a 12v source (IE: a wall wart with a screw adapter is super easy: https://www.amazon.com/inShareplus-Mounted-Switching-Connector-Adapter/dp/B01GD4ZQRS/ - otherwise just connect whatever 12v source you can.)
+* Connect a multimeter to the one of your actuator triggers (these are the wires that go to the actuator relays - out of the L298N motor controller.
+* Flip surf on that side you are using (if you dont get anything, try the other side.)  You should see the multimeter read 12v/-12v or so depending on how you have it hooked up.  This will only run for 3.5 seconds - so you might miss it if you aren't ready.
+* Turn off the switch, you should see the reverse of above (-12/12)
+* Repeat for the other side
+* You have confirmed the actuator controls are all good now -- you can continue testing below if you want - otherwise dont forget to comment out the *speedlimit=1;* and reupload the code.
+
+* With one switch in surf mode and the multimeter connected to that side, turn your rotary encoder a bunch of clicks.  You should see the multimeter trigger again within 1 second for whatever duration you chose.
+* Switch surf off and hold down the rotary button for 5-10 seconds and let go, you should see the multimeter again "retract" (it is retracting both at the same time, but you're only caputring the one the multimeter is connected to.)
+* Once you are happy with how everything is working, comment *speedlimit=1;* out again and upload the code.  You are now ready to test on the water.
+
 # Usage
-To test without speed uncomment the "speedlimit=1" at the end of the loop - this will simulate "always at speed."
 
 * Once on the water, switch surf to your preferred side and accelerate to atleast 8mph (editable at top of code.)
 * The tab will deploy for 3.5 seconds by default (on opposite side, if you wired backwards, just fix at acutator wiring or update code.)
