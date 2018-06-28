@@ -104,7 +104,7 @@ void setup()
   // ENcoder pins
    pinMode (CLK,INPUT);
    pinMode (DT,INPUT);
-   pinMode (2,INPUT);
+   pinMode (ROTBUTTON,INPUT);
 
    // LED pin
    pinMode(LEDPIN, OUTPUT);
