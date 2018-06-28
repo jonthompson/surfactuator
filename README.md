@@ -3,11 +3,13 @@ Arduino GPS Surf Actuator controller
 
 ![Surfgate](https://raw.githubusercontent.com/jonthompson/surfgate/master/surfgate.png)
 
-An Arduino/GPS controller to automatically deploy and retract your actuator controlled DIY wake gates/tabs at apprioriate speeds.
+An Arduino/GPS controller to automatically deploy and retract your actuator controlled DIY wake gates/tabs at apprioriate speeds.  Can customize to your specific solution but out of box includes:
+* GPS speed control - automatically deploy at 8mph, retract above 14 (customizable if you prefer other settings.)
+* SPDT switch to control surf side (LEFT/OFF/RIGHT)
+* Dial to adjust deployment of gates for each side (IE: deploy gate 75% on right, 65% on left.)
+* Button on dial to save current gate settings, reset any stuck actuators and reboot the arduino.
+* Status LED (fast flashes if GPS/error, slow flash when tabs are moving, solid when deployed.)
 
-Depends on https://github.com/SlashDevin/NeoGPS/
-
-If you are not using an Arduino Mega 2560 you'll also need either https://github.com/PaulStoffregen/AltSoftSerial or https://github.com/SlashDevin/NeoSWSerial
 
 # Parts List:
 * Arduino Nano: https://www.amazon.com/HiLetgo-ATmega328P-Micro-controller-Development-Compatible/dp/B00E87VWY4/
