@@ -7,7 +7,7 @@ An Arduino/GPS controller to automatically deploy and retract your actuator cont
 * GPS speed control - automatically deploy at 8mph, retract above 14 (customizable if you prefer other settings.)
 * SPDT switch to control surf side (LEFT/OFF/RIGHT)
 * Dial to adjust deployment of gates for each side (IE: deploy gate 75% on right, 65% on left.)
-* Button on dial to save current gate settings, reset any stuck actuators and reboot the arduino.
+* Button on dial to save current gate settings, reset any stuck actuators and reboot the arduino. Settings persist across reboots.
 * Status LED (fast flashes if GPS/error, slow flash when tabs are moving, solid when deployed.)
 
 
