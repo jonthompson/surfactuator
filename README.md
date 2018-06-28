@@ -57,26 +57,28 @@ An Arduino/GPS controller to automatically deploy and retract your actuator cont
 * Connect RX/TX to pin D8/D9 on arduino
 
 ## L298N
-* Connect 5v and GND to the arduino
+* Connect the 12v/GND to the raw power in (the source 12V not the ardiuno power.)
+* Connect 5v to the arduino
 * Connect the 4 IN1/IN2/IN3/IN4 to A2/A3/A4/A5
 * Connect the OUT1 and OUT2 to the actuator relay at the back of the boat.
 * Connect the OUT3 and OUT4 to the actuator relay at the back of the boat.
 
 ## Wiring controls:
 ### Encoder:
-* Wire D5 to DT 
-* D4 to CLK
-* D2 to ROTBUTTON (Might be SWT/SWTCH on yours, its the open pin)
+Wire each to:
+* DT to D5 
+* CLK to D4
+* ROTBUTTON to D2(Might be SWT/SWTCH on yours, its the open pin)
 * 5V to the +
 * GND shared between led/switch - wire to whichever you prefer
 
 ### LED:
-* D3 - LED (I used a 12V LED but am feeding it 7v and its fine.)
+* LED + to D3  (I used a 12V LED but am feeding it 7v and its fine.)
 * GND shared between encoder/switch - wire to whichever you prefer
 
 ### SWITCH:
-* D10 - LEFT DEPLOY
-* D11 - RIGHT DEPLOY
+* LEFT DEPLOY to D10
+* RIGHT DEPLOY to D11
 * GND (and GND for encoder/light)
 
 # Install
