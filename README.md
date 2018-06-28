@@ -10,12 +10,9 @@ Depends on https://github.com/SlashDevin/NeoGPS/
 If you are not using an Arduino Mega 2560 you'll also need either https://github.com/PaulStoffregen/AltSoftSerial or https://github.com/SlashDevin/NeoSWSerial
 
 # Parts List (Simple):
-Pick an Arduino:
-* Uno R3 (https://www.amazon.com/ATmega328P-Development-Compatible-Develope-Microcontroller/dp/B01AR7YJ3O)
-OR
-* Nano: https://www.amazon.com/HiLetgo-ATmega328P-Micro-controller-Development-Compatible/dp/B00E87VWY4/
+* Arduino Nano: https://www.amazon.com/HiLetgo-ATmega328P-Micro-controller-Development-Compatible/dp/B00E87VWY4/
 
-If you want a screw shield instead of soldering (recommended), the nano is likely a better option (https://www.amazon.com/Aideepen-Terminal-Adapter-Expansion-ATMEGA328P-AU/dp/B0788MLRLK/ref=sr_1_1?ie=UTF8&qid=1527559143&sr=8-1&keywords=nano+screw+shield)
+If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen-Terminal-Adapter-Expansion-ATMEGA328P-AU/dp/B0788MLRLK/ref=sr_1_1?ie=UTF8&qid=1527559143&sr=8-1&keywords=nano+screw+shield)
 
 * L298N Motor Bridge (https://www.amazon.com/Stepper-Controller-Mega2560-Duemilanove-IFANCY-TECH/dp/B01GZ1QUHO  (only need 1, but a backup doesn't hurt)
 
@@ -25,7 +22,9 @@ If you want a screw shield instead of soldering (recommended), the nano is likel
 
 * Any 3 way switch you want (SPDT - not momentary) - IE: https://www.amazon.com/Blue-Sea-Systems-WeatherDeck-Toggle/dp/B000MMFJ02
 
-* If you want a status LED grab one you like (9v - 12v)
+* (Optional) a status LED grab one you like (7v - 12v)
+
+* (Optional) A rotary encoder with a button -- I use these (this is a 5 pack) (https://www.amazon.com/Cylewet-Encoder-15%C3%9716-5-Arduino-CYT1062/dp/B06XQTHDRR/)
 
 
 # Wiring Instructions
