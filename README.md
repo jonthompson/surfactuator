@@ -32,6 +32,7 @@ An Arduino/GPS controller to automatically deploy and retract your actuator cont
 # Wiring Instructions
 (Also described in text detail below if you'd rather than than the diagram.)
 ![fritzing](https://raw.githubusercontent.com/jonthompson/surfactuator/master/fritzing_wiring.png)
+RED/BLACK = power/gnd, YELLOW = motor controller, BLUE = GPS, ORANGE = Rotary Encoder, GREEN = Surf switch, Purple = LED
 ## Relays:
 * Do NOT try to drive your lenco actuators directly(!)  You need to use marine relays to drive them (https://www.amazon.com/PACK-AMP-Waterproof-Relay-Harness/dp/B074FSZWVT/) you'll need 4 total.
 * Wire your relays according to lenco diagrams (1 relay per direction/tab) and you'll toggle them with the motor driver in the arduino.
