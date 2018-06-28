@@ -75,7 +75,8 @@ If you want a screw shield instead of soldering (recommended), the nano is likel
 * Install the arduino IDE and open the .ino sketch in the project.
 * PLug in your USB cable to you arduino
 * Select your board and port from the menu (nano/uno)
-* Upload code to your arduino - there's no required changes out of box.
+* Install the NeoGPS, EEROM and AltSoftSerial packages if they are not installed (Sketch -> Include library -> manage)
+* Upload code to your arduino - there's no required code changes out of box.
 * Open serial monitor and you should see it running - it will post a status update every second. If serial isnt working check the baud rate (9600) and the port.
 
 # Usage
