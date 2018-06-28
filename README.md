@@ -29,7 +29,6 @@ If you want a screw shield instead of soldering (recommended), the nano is likel
 
 
 # Wiring Instructions
-* Since everything except the actuators is very low draw all wiring can be 18-20AWG
 
 ## Relays:
 * Do NOT try to drive your lenco relays directly(!)  You need to use marine relays to drive them (https://www.amazon.com/PACK-AMP-Waterproof-Relay-Harness/dp/B074FSZWVT/) you'll need 4 total.
@@ -38,6 +37,7 @@ If you want a screw shield instead of soldering (recommended), the nano is likel
 
 
 ## Power:
+* Since everything except the actuators is very low draw all wiring can be 18-20AWG
 * REMOVE 5V REGULATOR JUMPER ON L298N.  This is a small jumper by itself on the board.
 * Wire power to the LM2596 "in" solder pads.  Wire this to something that is not always powered or you'll kill your battery.
 * Also solder a lead onto the LM2596 "in" solder pads to go directly to the L298N 12V in.
