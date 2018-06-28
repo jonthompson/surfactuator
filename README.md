@@ -28,6 +28,7 @@ An Arduino/GPS controller to automatically deploy and retract your actuator cont
 
 * (Optional) A rotary encoder with a button -- I use these (this is a 5 pack) (https://www.amazon.com/Cylewet-Encoder-15%C3%9716-5-Arduino-CYT1062/dp/B06XQTHDRR/)
 
+* (not covered by this project - but required) -- You will also need Lenco Actuators and relays to control them.  You can choose what works best for your situation, long or short throw actuators.  The 102XD are popular choices.  You'll also need some gates or plates fabricated.
 
 # Wiring Instructions
 (Also described in text detail below if you'd rather than than the diagram.)
