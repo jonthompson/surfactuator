@@ -28,7 +28,7 @@ If you are not using an Arduino Mega 2560 you'll also need either https://github
 
 
 # Wiring Instructions
-
+[!fritzing](https://raw.githubusercontent.com/jonthompson/surfactuator/master/fritzing_wiring.png)
 ## Relays:
 * Do NOT try to drive your lenco actuators directly(!)  You need to use marine relays to drive them (https://www.amazon.com/PACK-AMP-Waterproof-Relay-Harness/dp/B074FSZWVT/) you'll need 4 total.
 * Wire your relays according to lenco diagrams (1 relay per direction/tab) and you'll toggle them with the motor driver in the arduino.
