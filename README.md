@@ -12,11 +12,11 @@ If you are not using an Arduino Mega 2560 you'll also need either https://github
 # Parts List (Simple):
 * Arduino Nano: https://www.amazon.com/HiLetgo-ATmega328P-Micro-controller-Development-Compatible/dp/B00E87VWY4/
 
-If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen-Terminal-Adapter-Expansion-ATMEGA328P-AU/dp/B0788MLRLK/ref=sr_1_1?ie=UTF8&qid=1527559143&sr=8-1&keywords=nano+screw+shield)
+* If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen-Terminal-Adapter-Expansion-ATMEGA328P-AU/dp/B0788MLRLK/)
 
 * L298N Motor Bridge (https://www.amazon.com/Stepper-Controller-Mega2560-Duemilanove-IFANCY-TECH/dp/B01GZ1QUHO  (only need 1, but a backup doesn't hurt)
 
-* LM2596 Buck Converter (https://www.amazon.com/eBoot-LM2596-Converter-3-0-40V-1-5-35V/dp/B01GJ0SC2C (only need 1 but they are super handy and cheap.)  If you do not want to solder at all, you can try using this: https://www.amazon.com/Magnolian-Display-Supply-Converter-Module/dp/B00CBCGAL8/ - i have not tested it - but it should work fine.
+* LM2596 Buck Converter (https://www.amazon.com/eBoot-LM2596-Converter-3-0-40V-1-5-35V/dp/B01GJ0SC2C (only need 1 but they are super handy and cheap.)  If you do not want to solder at all, you can try using this: https://www.amazon.com/SMAKN%C2%AE12V-Converter-Voltage-Supply-Waterproof/dp/B00FPGLGV6/r- i have not tested it - but it should work fine.
 
 * GPS Module with antenna (https://www.amazon.com/dp/B01MRNN3YZ) 
 
@@ -33,6 +33,7 @@ If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen
 * Do NOT try to drive your lenco relays directly(!)  You need to use marine relays to drive them (https://www.amazon.com/PACK-AMP-Waterproof-Relay-Harness/dp/B074FSZWVT/) you'll need 4 total.
 * Wire your relays according to lenco diagrams (1 relay per direction/tab) and you'll toggle them with the motor driver in the arduino.
 * Wire your actuators with enough power (a single 25A circuit to the back of the boat is fine.)
+* This is not covered in detail here as it's well documented online already - and unrelated to this project!
 
 
 ## Power:
@@ -40,13 +41,13 @@ If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen
 * REMOVE 5V REGULATOR JUMPER ON L298N.  This is a small jumper by itself on the board.
 
 #### No soldering
-* If you used the no-solder power supply above, just wire the in to your 12v power, out to the *5V pin* on the arduino. Also run 12v to the L298N board.  Note you are wiring this to 5V NOT VIN.
+* If you used the no-solder power supply above, just wire the in to your 12v power, out to the *VIN pin* and *GND* on your arduino.
 
 #### Soldering:
 * Wire power to the LM2596 "in" solder pads.  Wire this to something that is not always powered or you'll kill your battery.
 * Also solder a lead onto the LM2596 "in" solder pads to go directly to the L298N 12V in.
 * Connect your LM2596 to a 12V source after turning the gold dial counter-clockwise 15-20 times.  Use a multimeter to measure out pads until you get to 7-8V out.
-* Solder wire on the LM2596 "out" solder pads to run to *VIN/GND* on arduino.  Note this is different from above, wire to VIN not 5V!
+* Solder wire on the LM2596 "out" solder pads to run to *VIN/GND* on arduino.
 
 ## GPS
 * Solder or connect 3v3 (+) and GND (-) to arduino pins.
