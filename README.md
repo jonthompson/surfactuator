@@ -9,7 +9,7 @@ Depends on https://github.com/SlashDevin/NeoGPS/
 
 If you are not using an Arduino Mega 2560 you'll also need either https://github.com/PaulStoffregen/AltSoftSerial or https://github.com/SlashDevin/NeoSWSerial
 
-# Parts List (Simple):
+# Parts List:
 * Arduino Nano: https://www.amazon.com/HiLetgo-ATmega328P-Micro-controller-Development-Compatible/dp/B00E87VWY4/
 
 * If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen-Terminal-Adapter-Expansion-ATMEGA328P-AU/dp/B0788MLRLK/)
@@ -28,6 +28,7 @@ If you are not using an Arduino Mega 2560 you'll also need either https://github
 
 
 # Wiring Instructions
+(Also described in text detail below if you'd rather than than the diagram.)
 ![fritzing](https://raw.githubusercontent.com/jonthompson/surfactuator/master/fritzing_wiring.png)
 ## Relays:
 * Do NOT try to drive your lenco actuators directly(!)  You need to use marine relays to drive them (https://www.amazon.com/PACK-AMP-Waterproof-Relay-Harness/dp/B074FSZWVT/) you'll need 4 total.
