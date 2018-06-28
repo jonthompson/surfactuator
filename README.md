@@ -16,7 +16,7 @@ If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen
 
 * L298N Motor Bridge (https://www.amazon.com/Stepper-Controller-Mega2560-Duemilanove-IFANCY-TECH/dp/B01GZ1QUHO  (only need 1, but a backup doesn't hurt)
 
-* LM2596 Buck Converter (https://www.amazon.com/eBoot-LM2596-Converter-3-0-40V-1-5-35V/dp/B01GJ0SC2C (only need 1 but they are super handy and cheap)
+* LM2596 Buck Converter (https://www.amazon.com/eBoot-LM2596-Converter-3-0-40V-1-5-35V/dp/B01GJ0SC2C (only need 1 but they are super handy and cheap.)  If you do not want to solder at all, you can try using this: https://www.amazon.com/Magnolian-Display-Supply-Converter-Module/dp/B00CBCGAL8/ - i have not tested it - but it should work fine.
 
 * GPS Module with antenna (https://www.amazon.com/dp/B01MRNN3YZ) 
 
@@ -38,6 +38,9 @@ If you want a screw shield instead of soldering (https://www.amazon.com/Aideepen
 ## Power:
 * Since everything except the actuators is very low draw all wiring can be 18-22AWG
 * REMOVE 5V REGULATOR JUMPER ON L298N.  This is a small jumper by itself on the board.
+#### No soldering
+* If you used the no-solder power supply above, just wire the in to your 12v power, out to the VIN pin on the arduino. Also run 12v to the L298N board.
+#### Soldering:
 * Wire power to the LM2596 "in" solder pads.  Wire this to something that is not always powered or you'll kill your battery.
 * Also solder a lead onto the LM2596 "in" solder pads to go directly to the L298N 12V in.
 * Connect your LM2596 to a 12V source after turning the gold dial counter-clockwise 15-20 times.  Use a multimeter to measure out pads until you get to 7-8V out.
