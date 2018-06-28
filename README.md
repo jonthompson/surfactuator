@@ -59,9 +59,12 @@ If you want a screw shield instead of soldering (recommended), the nano is likel
 * Wire D5 to DT 
 * D4 to CLK
 * D2 to ROTBUTTON (Might be SWT/SWTCH on yours, its the open pin)
+* 5V to the +
+* GND shared between led/switch - wire to whichever you prefer
 
 ### LED:
 * D3 - LED (I used a 12V LED but am feeding it 7v and its fine.)
+* GND shared between encoder/switch - wire to whichever you prefer
 
 ### SWITCH:
 * D10 - LEFT DEPLOY
@@ -69,6 +72,11 @@ If you want a screw shield instead of soldering (recommended), the nano is likel
 * GND (and GND for encoder/light)
 
 # Install
+* Install the arduino IDE and open the .ino sketch in the project.
+* PLug in your USB cable to you arduino
+* Select your board and port from the menu (nano/uno)
+* Upload code to your arduino - there's no required changes out of box.
+* Open serial monitor and you should see it running - it will post a status update every second. If serial isnt working check the baud rate (9600) and the port.
 
 # Usage
 To test without speed uncomment the "speedlimit=1" at the end of the loop - this will simulate "always at speed."
@@ -80,5 +88,10 @@ To test without speed uncomment the "speedlimit=1" at the end of the loop - this
 * If you have issues or a tab stuck deployed hold down the rotary button for 5 seconds and all tabs will retract fully (you'll need to switch back into surf mode probably.)
 * If you have an issue and need to reboot hold down the rotary button for 15 seconds and let go, it will restart the arduino loop.
 
+# Notes
+* If you used a small project box you can pull your arduino nano to reprogram it easily - or have a spare ready to swap in anytime.
+* Make sure you dont feed 12-14V to your arduino or it will most likely die
+* Wiring choices are up to you - you can use cat5 without issue and it makes it easy to wire jacks out of the control box.
+* I use 4x4x2 electrical boxes with lids from homedepot for my projects - cheap, waterproof,  somewhat tight for all these components - but they do all fit.
 
 <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
