@@ -115,6 +115,7 @@ You can easily test this before installing in your boat:
 * If you used a small project box you can pull your arduino nano to reprogram it easily - or have a spare ready to swap in anytime.
 * Make sure you dont feed 12-14V to your arduino or it will most likely die
 * Wiring choices are up to you - you can use cat5 without issue and it makes it easy to wire jacks out of the control box.  I dont recommend 8-10 conductor 18AWG wire as it is too bulky and stiff to be workable (from experience.)
-* I use 4x4x2 electrical boxes with lids from homedepot for my projects - cheap, waterproof,  somewhat tight for all these components - but they do all fit. Everything in box: https://github.com/jonthompson/surfactuator/blob/master/surfactuator_example.JPG
+* I use 4x4x2 electrical boxes with lids from homedepot for my projects - cheap, waterproof,  somewhat tight for all these components - but they do all fit. Everything in box: 
+![built](https://github.com/jonthompson/surfactuator/blob/master/surfactuator_example.JPG)
 
 <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
