@@ -9,7 +9,7 @@ An Arduino/GPS controller to automatically deploy and retract your actuator cont
 * Dial to adjust deployment of gates for each side (IE: deploy gate 75% on right, 65% on left.)
 * Button on dial to save current gate settings, reset any stuck actuators and reboot the arduino. Settings persist across reboots.
 * Status LED (fast flashes if GPS/error, slow flash when tabs are moving, solid when deployed.)
-
+* Optional "surf band" to switch sides of waves via a waterproof band
 
 # Parts List:
 * Arduino Nano: https://www.amazon.com/HiLetgo-ATmega328P-Micro-controller-Development-Compatible/dp/B00E87VWY4/
@@ -27,6 +27,10 @@ An Arduino/GPS controller to automatically deploy and retract your actuator cont
 * (Optional) a status LED grab one you like (7v - 12v) iE: https://www.amazon.com/dp/B013TI6CE2/ref=twister_B0150XWQ8U?_encoding=UTF8&th=1
 
 * (Optional) A rotary encoder with a button -- I use these (this is a 5 pack) (https://www.amazon.com/Cylewet-Encoder-15%C3%9716-5-Arduino-CYT1062/dp/B06XQTHDRR/)
+
+* (Optional) Waterproof "surf band" to trigger wave transitions while surfing (https://www.amazon.com/iZtouch-Wireless-Wristband-Emergency-Accessories/dp/B01BQYTM6Q/)
+
+* (Optional) RF Receiver for surf band (https://www.amazon.com/Transmitter-Receiver-Regeneration-Wireless-Burglar/dp/B01AL5Q7SC/)
 
 * (not covered by this project - but required) -- You will also need Lenco Actuators and relays to control them.  You can choose what works best for your situation, long or short throw actuators.  The 102XD are popular choices.  You'll also need some gates or plates fabricated for the actuators to control.  This project should work with tabs, gates and NSS style all the same, so choose what work best.
 
