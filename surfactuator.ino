@@ -2,11 +2,12 @@
 #include <NMEAGPS.h>
 #include <GPSport.h>
 #include <EEPROM.h>
+#include <RCSwitch.h>
 
 
 
 //Surf Settings - deploy speeds
-float minSpeed=8.0;
+float minSpeed=7.0;
 float maxSpeed=14.0;
   
 // All entries for timing/tabs/buttons are arrays where   array[0] = surf left controls, array[1] = surf right controls.
@@ -14,23 +15,27 @@ float maxSpeed=14.0;
 
 // Actuator settings
 // Default -- is overridden by the rotary encoder -- to reset to this default hold down rot button for 15s
-int tabTime[ ] = {3500,3500}; // The amount of time it eachs each tab to deploy -- left=0, right=1
+int tabTime[ ] = {3500,3500}; // The default amount of time it eachs each tab to deploy -- left=0, right=1
 
 // Static values
-int retractTime[ ] = {8000,8000}; // full time in ms to retract tabs fully from fully extended.  Assuming 8s to be safe
-int maxTime[ ] = {7000,7000}; // the max amount of time an actuator should run, this should be smaller than above.
-int coolDown = 500; // Wait 500ms before taking a second action on same tab to prevent any issues
+const int retractTime[ ] = {7000,7000}; // full time in ms to retract tabs fully from fully extended.  Assuming 8s to be safe - should be larger than max time to account for any blips.
+const int maxTime[ ] = {6000,6000}; // the max amount of time an actuator should run, this should be smaller than above.
+const int coolDown = 500; // Wait 500ms before taking a second action on same tab to prevent any issues
 
 // Pin Settings
 // Switch pins -- wire with a ground and pin 10/11 as your surf left/right buttons on your switch.
 const int buttonPins[ ] = {10,11}; // Set to your button pins, array[0]=surf left, array[1]= surf right button.  Using 3 way switch.
 
+
+// Surfband interrupt 
+const int SURFBANDINTERRUPT = 0; // NOT pin - interrupt -- interrupt 0 is pin D2, interrupt 1 is pin D3
+
 // Rotary pins
 // Should be labeled - connect power and gnd as well
-int CLK = 4;  // Pin 9 to clk on encoder
-int DT = 5;  // Pin 8 to DT on encode
-int ROTBUTTON = 2;
-int rotInterval=100; // ms each "click" on rotary encoder adds/subtracts -- your rot may double count with the below code - so you may end up with 2x this value.  Tweak as you like, the moves are logged.
+const int CLK = 4;  // Pin 9 to clk on encoder
+const int DT = 5;  // Pin 8 to DT on encode
+const int ROTBUTTON = 6;
+const int rotInterval=100; // ms each "click" on rotary encoder adds/subtracts -- your rot may double count with the below code - so you may end up with 2x this value.
 
 
 // Relay control pins
@@ -39,9 +44,6 @@ const int relayGateRetract[ ] = {A3,A5}; // A3= left retract gate pin, A5 = righ
 
 const int LEDPIN = 3;
 
-// LED Intervals
-int gpsFlashInterval=100;
-int movingFlashInterval=500;
 
 // No need to edit below here
 
@@ -57,15 +59,17 @@ long deployTimers[ ] = {-1,-1}; // deploy timer -  0= left, 1= right for all arr
 long retractTimers[ ] ={-1,-1}; // retracting of actuators;
 long coolDownTimers[ ] = {-1,-1};
 int buttonStart[ ]={-1,-1}; // start deploy time for buttons
-long LEDTimer=0;
-long loopTimer; // a reusable loop timer.
+long surfbandtimer = 0; 
+
+ long LEDTimer=0;
+ long loopTimer; // a reusable loop timer.
 int loopTime; // how long the full last loop took
 
 // Misc
 int i; // counter
 bool speedlimit;
-bool forceDeploy = false;
 int start = 0;
+int surfoverride=-1;
 int surf=-1; //off=-1, surf left=0, surf right=1
 String tabMap[ ] = {"LEFT","RIGHT"}; // just for printing out in serial
 int deployed[ ]={0,0}; // how far tab is deployed
@@ -83,10 +87,7 @@ boolean pendingMove = false;
 
 NMEAGPS  gps; // This parses the GPS characters
 gps_fix  fix; // This holds on to the latest values
-
-
-
-
+RCSwitch surfband = RCSwitch();
 
 void setup()
 {
@@ -118,6 +119,9 @@ void setup()
   // If we have any saved settings, restore them from EEPROM
   restoreSettings();
   
+  // Surfband setup -if available
+  surfband.enableReceive(SURFBANDINTERRUPT);  // Receiver on interrupt 0 => that is pin #2
+
   // Enable GPS
   gpsPort.begin(9600);
 
@@ -140,10 +144,10 @@ void GPSloop()
 
 void saveSettings() {
     for (i = 0; i < 2; i = i + 1) { // loop thru to save
-    Serial.print("Saving Settings for ");
+    Serial.print(F("Saving Settings for "));
     Serial.println(tabMap[i]);
     EEPROM.write(i, tabTime[i]/rotInterval);
-    Serial.print("EE: ");
+    Serial.print(F("EE: "));
     Serial.println(EEPROM.read(i));
     
   }
@@ -156,7 +160,7 @@ void restoreSettings() {
     if(ee >1 and ee*rotInterval < maxTime[i]) {
       tabTime[0] = ee*rotInterval;
       } else {
-        Serial.println("Default");
+        Serial.println(F("Default"));
       }
   }
   
@@ -176,10 +180,12 @@ void gpsLagCheck() {
 }
 
 void checkSpeed() {
-  if(lastSpeed > minSpeed and lastSpeed < maxSpeed|| forceDeploy) {
+  if(lastSpeed > minSpeed and lastSpeed < maxSpeed) {
     speedlimit=true;
   } else {
     speedlimit=false;
+    surf=-1;
+    surfoverride=-1;
   }
 }
 
@@ -187,57 +193,58 @@ void reportSerial() {
   
   if(millis() % 1000 == 0) {
     Serial.print(millis());
-    Serial.print(" surf side: ");
+    Serial.print(F(" surf side: "));
     if( surf > -1) {
       Serial.print(tabMap[surf]);
     } else {
-      Serial.print("OFF");
+      Serial.print(F("OFF"));
     }
-    Serial.print(" Speed: ");
+    Serial.print(F(" Speed: "));
+
+
     Serial.print(lastSpeed);
-    Serial.print(" Sats: ");  
+    Serial.print(F(" GPS: "));
+    Serial.print(gpsOut);
+    Serial.print(F(" Sats: "));  
     Serial.print(satCount);
-    Serial.print(" CycleTime: ");
+    Serial.print(F(" CycleTime: "));
     Serial.print(loopTime);
-    Serial.print(" Speedlimit:");
+    Serial.print(F(" Speedlimit:"));
     Serial.print(speedlimit);
-    Serial.print(" Deploy:");
+    Serial.print(F(" Deploy:"));
     if(deployed[0] >1) {
       Serial.print(tabMap[0]);
     } else if (deployed[1]  > 1) {
       Serial.print(tabMap[1]);
     } else {
-      Serial.print("OFF");
+      Serial.print(F("OFF"));
     }
 
-    Serial.print(" Deploy Settings: C");
+    Serial.print(F(" Deploy Settings: C"));
     Serial.print(deployed[0]);
-    Serial.print("/T");
+    Serial.print(F("/T"));
     Serial.print(tabTime[0]);
-    Serial.print(" - C");
+    Serial.print(F(" - C"));
     Serial.print(deployed[1]);
-    Serial.print("/T");
+    Serial.print(F("/T"));
     Serial.print(tabTime[1]);  
       
-    Serial.print(" Timers: D");
+    Serial.print(F(" Timers: D"));
     Serial.print(deployTimers[0]);
-    Serial.print("/R");
+    Serial.print(F("/R"));
     Serial.print(retractTimers[0]);
-    Serial.print(" - D");
+    Serial.print(F(" - D"));
     Serial.print(deployTimers[1]);
-    Serial.print("/R");
+    Serial.print(F("/R"));
     Serial.print(retractTimers[1]);  
-    Serial.print("EE: ");
-    Serial.print(EEPROM.read(0));
-    Serial.print(" ");
-    Serial.print(EEPROM.read(1));
+
     Serial.println();
     
   }
 }
 
 void deployTab(int tab, int start) {
-    Serial.print("Deploying: ");
+    Serial.print(F("Deploying: "));
     Serial.println(tabMap[tab]);
 
     for (i = 0; i < 2; i = i + 1) { // loop thru to see if we need to retract anything
@@ -252,12 +259,12 @@ void deployTab(int tab, int start) {
 }
 
 void retractTab(int tab, int start) {
-    Serial.print("Retracting: ");
+    Serial.print(F("Retracting: "));
     Serial.println(tabMap[tab]);
     deployTimers[tab] = -1;
     digitalWrite(relayGate[tab], LOW);
     digitalWrite(relayGateRetract[tab], HIGH);
-    if(start <0) {
+    if(start !=0) {
       retractTimers[tab] = millis()-(tabTime[surf] + start);
     } else {
       retractTimers[tab] = millis();
@@ -265,7 +272,7 @@ void retractTab(int tab, int start) {
 }
 
 void resetTabs() {
-  Serial.println("RESETTING TABS TO DEFAULT");
+  Serial.println(F("RESETTING TABS TO DEFAULT"));
   for (i = 0; i < 2; i = i + 1) { // loop thru both 
     deployTimers[i] = -1;
     deployed[i] = 0;
@@ -279,7 +286,7 @@ void goSurf() {
   if(surf > -1) { // Is surf enabled?  surf 1=left surf2=right
     
     if(speedlimit ==1) { // Are we in a deploy speed range
-      if(deployTimers[surf] == -1 and retractTimers[surf] ==-1 and deployed[surf] < 1 and (millis()- coolDownTimers[surf]) > coolDown) { // are we not deploying or retracting and not deployed and not in a cooldown for this actuator?
+      if(deployTimers[surf] == -1 and retractTimers[surf] ==-1 and deployed[surf] < 1 and (millis()- coolDownTimers[surf]) > coolDown) { 
         deployTab(surf,0);
       }
     }
@@ -287,7 +294,7 @@ void goSurf() {
     // Check if we have anything to retract
     if(speedlimit ==0) { // Are we outside of a deploy speed range
         for (i = 0; i < 2; i = i + 1) { // loop thru both to see if we need to retract
-          if(retractTimers[i] == -1 and deployTimers[i] ==-1 and deployed[i] > 1 and (millis()- coolDownTimers[surf]) > coolDown) { // are we not deploying or retracting and deployed and not in a cooldown for this actuator?
+          if(retractTimers[i] == -1 and deployTimers[i] ==-1 and deployed[i] > 1 and (millis()- coolDownTimers[surf]) > coolDown) { 
             retractTab(i,0);
           }
         }
@@ -295,7 +302,7 @@ void goSurf() {
       
   } else { //  auto-retract when surf is off
    for (i = 0; i < 2; i = i + 1) { // loop thru both to see if we need to retract
-    if(retractTimers[i] == -1 and deployTimers[i] ==-1 and deployed[i] > 1 and (millis()- coolDownTimers[surf]) > coolDown) { // are we not deploying or retracting and deployed and not in a cooldown for this actuator?
+    if(retractTimers[i] == -1 and deployTimers[i] ==-1 and deployed[i] > 1 and (millis()- coolDownTimers[surf]) > coolDown) { 
         retractTab(i,0);
       }
     }
@@ -310,7 +317,7 @@ void updateLEDs() {
     if(LEDTimer ==0) {
           LEDTimer=millis();
     }
-    if(millis()-LEDTimer > gpsFlashInterval) {
+    if(millis()-LEDTimer > 100) {
       if(digitalRead(LEDPIN) == HIGH) {
         digitalWrite(LEDPIN, LOW);
       } else {
@@ -328,7 +335,7 @@ void updateLEDs() {
     if(LEDTimer ==0) {
           LEDTimer=millis();
     }
-    if(millis()-LEDTimer > movingFlashInterval) {
+    if(millis()-LEDTimer > 500) {
       if(digitalRead(LEDPIN) == HIGH) {
         digitalWrite(LEDPIN, LOW);
       } else {
@@ -355,7 +362,7 @@ void tabTimers() {
     if(deployTimers[i] > 0 and (millis()- deployTimers[i]) > tabTime[i] and retractTimers[i] == -1) {
       deployed[i] = tabTime[i];
       //Do your deploy complete logic here, IE: set pins
-      Serial.print("Deploy complete: ");
+      Serial.print(F("Deploy complete: "));
       Serial.println(tabMap[i]);
 
       digitalWrite(relayGate[i], LOW); // Stop deploying gate
@@ -367,16 +374,15 @@ void tabTimers() {
   }
   for (i = 0; i < 2; i = i + 1) {
     if(i != surf) {
-    if(retractTimers[i] > 0 and (millis()- retractTimers[i]) > retractTime[i] and deployTimers[i] ==-1) {
-
+      if(retractTimers[i] > 0 and (millis()- retractTimers[i]) > retractTime[i] and deployTimers[i] ==-1) {
       deployed[i]=0;
       
       //Do your retract complete logic here, IE: set pins
       digitalWrite(relayGate[i], LOW); // Stop retracting gate
       digitalWrite(relayGateRetract[i], LOW); // Stop retracting gate
-
-      Serial.print("Retract complete: ");
+      Serial.print(F("Retract complete: "));
       Serial.println(tabMap[i]);
+      
       retractTimers[i]=-1;
       coolDownTimers[i] = millis();
      }
@@ -391,7 +397,7 @@ void tabTimers() {
       digitalWrite(relayGate[i], LOW); // Stop retracting gate
       digitalWrite(relayGateRetract[i], LOW); // Stop retracting gate
 
-      Serial.print("Retract complete: ");
+      Serial.print(F("Retract complete: "));
       Serial.println(tabMap[i]);
       retractTimers[i]=-1;
       coolDownTimers[i] = millis();
@@ -400,15 +406,44 @@ void tabTimers() {
   }
 }
 
+void checkSurfBand() {
+    if(surfoverride >-1) {
+      surf=surfoverride;
+    }
+    if (surfband.available()) {
+      if(speedlimit) {
+     if(surfband.getReceivedValue() == 2414178) { // This is the value sent by the cheap SOS wristbands -  need to add a way to make it programmable.
+      if(millis()- surfbandtimer >5000) { 
+
+        Serial.println(F("SWITCHING SURF SIDES"));
+        if(surf ==0) {
+          surf=1;
+        } else {
+          surf=0;
+        }
+        surfoverride=surf;
+
+      }
+     }
+     }
+      surfbandtimer = millis();
+      surfband.resetAvailable();
+  }
+  
+}
+
+
 void checkButtons() {
      curval = digitalRead(CLK);
      if (curval != rotation){ // we use the DT pin to find out which way we turning.
      if (digitalRead(DT) != curval) {  // Clockwise
        RotPosition ++;
        LeftRight = true;
+
      } else { //Counterclockwise
        LeftRight = false;
        RotPosition--;
+
      }
       
     if(surf> -1) {
@@ -416,13 +451,13 @@ void checkButtons() {
        if(tabTime[surf] + RotPosition*rotInterval < maxTime[surf]  ) {
         tabTime[surf] = tabTime[surf] + RotPosition*rotInterval;
        } else {
-          Serial.println("MAX");
+          Serial.println(F("MAX"));
        }
      }else{        // decrease deploy
      if(tabTime[surf] + RotPosition*rotInterval >0 ) {
         tabTime[surf] = tabTime[surf] + RotPosition*rotInterval;
         } else {
-           Serial.println("MIN");
+           Serial.println(F("MIN"));
         }
      }
      lastRotUpdate=millis();
@@ -434,7 +469,7 @@ void checkButtons() {
     
    // Moving after detecting a rot change - wait 1 second to batch turns into 1 action instead of pulsing actuator 200ms.
   if(millis() >lastRotUpdate+batchMoveTime and tabTime[surf] != deployed[surf] and deployTimers[surf] == -1 and retractTimers[surf] == -1 and pendingMove) {
-    Serial.print("Batched move occuring:");
+    Serial.print(F("Batched move occuring:"));
     Serial.println(tabTime[surf] - deployed[surf]);
     if(tabTime[surf] > deployed[surf]) {
       deployTab(surf, deployed[surf]);
@@ -453,7 +488,7 @@ void checkButtons() {
    } else {
     if(rotButtonTimer > 0) {
       if(millis() - rotButtonTimer > 15000) {
-       Serial.println("Rebooting");
+       Serial.println(F("Rebooting"));
        resetFunc();
        rotButtonTimer=-1;
        return;
@@ -465,7 +500,7 @@ void checkButtons() {
       return;
     }
     if(millis() - rotButtonTimer > 100 ) {
-      Serial.println("Saving");
+      Serial.println(F("Saving"));
       saveSettings();
       rotButtonTimer=-1;
       return;
@@ -495,26 +530,21 @@ void checkButtons() {
 
 void loop()
 {
-
-
-
   if(millis() - loopTimer> 100) {
-    Serial.print("LONG LOOP - GPS ISSUE POSSIBLE");
+    Serial.print(F("LONG LOOP - GPS ISSUE POSSIBLE"));
     Serial.println(millis()-loopTimer);
   } 
   loopTime = millis()-loopTimer;
 
   loopTimer=millis();
-
   tabTimers();
   checkButtons();
   GPSloop(); // Get GPS data
-
   gpsLagCheck(); // Is the GPS data old?  If so, report it.
   checkSpeed();  // Check  if my speed is in the deploy range
-  //speedlimit=1;  // override cause i'm sick of driving around
+  //speedlimit=1;  // override cause i'y sick of driving around
   updateLEDs();  // If you use LEDs for any status updates, set here.
-
+  checkSurfBand();
   goSurf();
   reportSerial(); // Report status on serial
   
