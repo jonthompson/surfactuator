@@ -74,7 +74,7 @@ RED/BLACK = power/gnd, YELLOW = motor controller, BLUE = GPS, ORANGE = Rotary En
 Wire each to:
 * DT to D5 
 * CLK to D4
-* ROTBUTTON to D2(Might be SWT/SWTCH on yours, its the open pin)
+* ROTBUTTON to D6(Might be SWT/SWTCH on yours, its the open pin)
 * 5V to the +
 * GND shared between led/switch - wire to whichever you prefer
 
