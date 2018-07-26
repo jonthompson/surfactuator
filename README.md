@@ -6,9 +6,9 @@ Arduino GPS Surf Actuator controller
 An Arduino/GPS controller to automatically deploy and retract your actuator controlled DIY wake gates/tabs at apprioriate speeds.  Can customize to your specific solution but out of box includes:
 * GPS speed control - automatically deploy at 8mph, retract above 14 (customizable if you prefer other settings.)
 * SPDT switch to control surf side (LEFT/OFF/RIGHT)
-* Dial to adjust deployment of gates for each side (IE: deploy gate 75% on right, 65% on left.)
-* Button on dial to save current gate settings, reset any stuck actuators and reboot the arduino. Settings persist across reboots.
-* Status LED (fast flashes if GPS/error, slow flash when tabs are moving, solid when deployed.)
+* Optional Dial to adjust deployment of gates for each side (IE: deploy gate 75% on right, 65% on left.)
+* Optional Button on dial to save current gate settings, reset any stuck actuators and reboot the arduino. Settings persist across reboots.
+* Optional Status LED (fast flashes if GPS/error, slow flash when tabs are moving, solid when deployed.)
 * Optional "surf band" to switch sides of waves via a waterproof band
 
 # Parts List:
@@ -18,7 +18,7 @@ An Arduino/GPS controller to automatically deploy and retract your actuator cont
 
 * L298N Motor Bridge (https://www.amazon.com/Stepper-Controller-Mega2560-Duemilanove-IFANCY-TECH/dp/B01GZ1QUHO  (only need 1, but a backup doesn't hurt)
 
-* LM2596 Buck Converter (https://www.amazon.com/eBoot-LM2596-Converter-3-0-40V-1-5-35V/dp/B01GJ0SC2C (only need 1 but they are super handy and cheap.)  If you do not want to solder at all, you can try using this: https://www.amazon.com/SMAKN%C2%AE12V-Converter-Voltage-Supply-Waterproof/dp/B00FPGLGV6/r- i have not tested it - but it should work fine.
+* *Soldered power:* LM2596 Buck Converter (https://www.amazon.com/eBoot-LM2596-Converter-3-0-40V-1-5-35V/dp/B01GJ0SC2C (only need 1 but they are super handy and cheap.)  *Solderless power:* If you do not want to solder at all, you can try using this: https://www.amazon.com/SMAKN%C2%AE12V-Converter-Voltage-Supply-Waterproof/dp/B00FPGLGV6/r- i have not tested it - but it should work fine.
 
 * GPS Module with antenna (https://www.amazon.com/dp/B01MRNN3YZ) 
 
